@@ -256,7 +256,7 @@ footer p{margin:4px auto;max-width:70ch}
 </section>
 
 <footer>
-  <p><b>TweetGen</b> is powered by Claude. AI can get things wrong, so read before you post.</p>
+  <p><b>TweetGen</b> is powered by Groq. AI can get things wrong, so read before you post.</p>
   <p>Built by Paras Khurana, Harshita Agrawal, Disha Das, Kritin Agarwal, Manikanta, Tushar Soni and Aditya Bhandare.</p>
 </footer>
 
@@ -275,6 +275,7 @@ ownKey = store.get("tg_key") || "";
 
 function showQuota(q) {
   const b = $("quotaBadge");
+  if (q && q.research === false) { $("research").checked = false; $("research").disabled = true; }
   if (ownKey) { b.hidden = false; b.innerHTML = "<b>Unlimited</b> with your key"; $("usingKey").hidden = false; return; }
   $("usingKey").hidden = true;
   if (!q) return;
@@ -288,13 +289,13 @@ function showLimit() {
   $("agent").hidden = true;
   $("drafts").innerHTML = `<div class="limitbox">
     <h3>You've used your free generations</h3>
-    <p>Free generations reset after 30 days. To keep going now, add your own Anthropic API key. It stays in this browser and is only used for your requests.</p>
-    <div class="keyrow"><input id="keyIn" type="password" placeholder="sk-ant-..." autocomplete="off" aria-label="Your Anthropic API key"><button type="button" id="keySave">Use my key</button></div>
-    <p class="keynote">Get a key at console.anthropic.com. You pay Anthropic directly for what you use.</p>
+    <p>Free generations reset after 30 days. To keep going now, add your own free Groq API key. It stays in this browser and is only used for your requests.</p>
+    <div class="keyrow"><input id="keyIn" type="password" placeholder="gsk_..." autocomplete="off" aria-label="Your Groq API key"><button type="button" id="keySave">Use my key</button></div>
+    <p class="keynote">Get one free in 2 minutes at console.groq.com, no card needed.</p>
   </div>`;
   $("keySave").onclick = () => {
     const k = $("keyIn").value.trim();
-    if (!k.startsWith("sk-ant-")) { $("keyIn").focus(); return; }
+    if (!k.startsWith("gsk_")) { $("keyIn").focus(); return; }
     ownKey = k; store.set("tg_key", k); showQuota();
     $("drafts").innerHTML = '<p class="empty">Key saved. Hit Generate tweets.</p>';
   };
